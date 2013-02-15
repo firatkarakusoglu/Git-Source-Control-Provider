@@ -1276,6 +1276,16 @@ namespace GitScc
                 }
             }
         }
+
+        public bool CurrentCommitHasRefs()
+        {
+            if (this.head == null) return false;
+            var result = GitBash.Run("show-ref --head --dereference", this.GitWorkingDirectory);
+
+            var refs = result.Output.Split('\n')
+                      .Where(t => t.IndexOf(this.head.Name) >= 0);
+            return refs.Count()>2;
+        }
     }
 
     public abstract class Log
