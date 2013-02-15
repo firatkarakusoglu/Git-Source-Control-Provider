@@ -18,7 +18,7 @@ namespace GitScc.UI
     /// </summary>
     public partial class GitConsole : UserControl
     {
-        private GitFileStatusTracker tracker { get; set; }
+        public GitFileStatusTracker tracker { get; set; }
         string prompt = ">";
         
         List<string> commandHistory = new List<string>();
@@ -29,7 +29,7 @@ namespace GitScc.UI
             InitializeComponent();
         }
 
-        public string GitExePath { get; set; }
+        public string GitExePath { get { return GitSccOptions.Current.GitBashPath; } }
         
         public string workingDirectory;
         public string WorkingDirectory 
@@ -43,7 +43,7 @@ namespace GitScc.UI
                     prompt = string.Format("[{1}]>", workingDirectory,
                         GitIntellisenseHelper.GetPrompt(tracker));
                     this.richTextBox1.Document.Blocks.Clear();
-                    ShowWaring();
+                    //ShowWaring();
                 }
             }
         }
@@ -261,38 +261,6 @@ USE AT YOUR OWN RISK.
                 }
             }
         }
-
-        //private void RunBashCommand(string command)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(command) &&
-        //       (commandHistory.Count == 0 || commandHistory.Last() != command))
-        //    {
-        //        commandHistory.Add(command);
-        //        commandIdx = commandHistory.Count - 1;
-        //    }
-
-        //    if (!ProcessInternalCommand(command))
-        //    {
-        //        var GitBashPath = GitExePath.Replace("git.exe", "sh.exe");
-        //        ProcessStartInfo startInfo = new ProcessStartInfo(GitBashPath);
-        //        startInfo.Arguments = "--login -i -c \"" + command + " && read -p 'Press <Enter> to continue'\"";
-        //        //startInfo.RedirectStandardInput = true;
-        //        startInfo.RedirectStandardError = false;
-        //        startInfo.RedirectStandardOutput = false;
-        //        startInfo.UseShellExecute = true;
-        //        startInfo.CreateNoWindow = false;
-        //        //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        //        //startInfo.ErrorDialog = false;
-        //        startInfo.WorkingDirectory = WorkingDirectory;
-
-        //        using (Process process = Process.Start(startInfo))
-        //        {
-        //            process.WaitForExit();
-        //        }
-
-        //        WritePrompt();
-        //    }
-        //}
 
         void Done()
         {

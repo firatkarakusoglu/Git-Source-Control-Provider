@@ -275,6 +275,9 @@ namespace GitScc
 
             this.label3.Content = "Changed files";
             this.tracker = tracker;
+            this.gitConsole1.tracker = tracker;
+            this.gitConsole1.WorkingDirectory = tracker.GitWorkingDirectory;
+
             if (tracker == null)
             {
                 using (service.DisableRefresh())
